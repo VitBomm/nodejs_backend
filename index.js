@@ -1,28 +1,21 @@
 const express = require("express");
-const router = require("./routes/routers");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
 
-
-const PORT = 8000;
 dotenv.config();
 
 const app = express();
-app.use(router);
 
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
+// Routes
+//
+const usersRoute = require('./routes/users');
+app.use('/users', usersRoute);
 
-app.listen(PORT, async () => {
-  console.log(`server up on port ${PORT}`);
-});
-
-mongoose
-  .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// Start server
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
