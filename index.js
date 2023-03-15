@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 // Routes
 //
-const usersRoute = require('./routes/users');
-app.use('/users', usersRoute);
+const usersRoute = require('./routes/flowers.js');
+app.use('/flowers', usersRoute);
 
 // Start server
 const port = process.env.PORT || 3000;
